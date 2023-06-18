@@ -1,15 +1,16 @@
 [features]
 seeds = false
 skip-lint = false
-[programs.devnet]
-commit_reveal = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.localnet]
+commit_reveal = "79SJezTP7rHbgymPdR8PPehwJ5FDN8fY1Yosybc7R6EQ"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "/home/vsiva360/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+initialize = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/initialize.test.ts"
