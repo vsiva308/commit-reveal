@@ -31,7 +31,7 @@ pub struct Commit<'info> {
         init,
         payer = payer,
         space = VoterRecord::SIZE,
-        seeds = ["record".as_bytes(), payer.key().as_ref()], bump
+        seeds = ["record".as_bytes(), election.key().as_ref(), payer.key().as_ref()], bump
     )]
     pub record: Account<'info, VoterRecord>,
     #[account(mut)]

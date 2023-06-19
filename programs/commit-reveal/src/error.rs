@@ -16,4 +16,6 @@ pub enum ElectionError {
     InvalidPubkey,
     #[msg("Reveal window is over.")]
     RevealEnded,
+    #[msg("Reveal window not started.")]
+    RevealNotStarted
 }

@@ -34,7 +34,8 @@ impl Election {
 
     pub fn increment(&mut self, pubkey: &Pubkey) -> Result<()> {
         let timestamp = Clock::get().unwrap().unix_timestamp;
-        require!(timestamp <= self.reveal_window && timestamp > self.commit_window, ElectionError::RevealEnded);
+        require!(timestamp <= self.reveal_window, ElectionError::RevealEnded);
+        require!(timestamp > self.commit_window, ElectionError::RevealNotStarted);
         match self.users.iter().position(|&key| key == *pubkey) {
             Some(x) => {
                 self.votes[x] += 1;

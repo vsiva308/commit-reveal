@@ -3,6 +3,7 @@ import { Program } from "@coral-xyz/anchor";
 import { Keypair, PublicKey, SystemProgram } from "@solana/web3.js";
 import { CommitReveal } from "../target/types/commit_reveal";
 import { expect } from "chai";
+import { setID } from "./config";
 
 describe("commit-reveal", () => {
   // Configure the client to use the local cluster.
@@ -28,6 +29,8 @@ describe("commit-reveal", () => {
 
     let counterState = await program.account.count.fetch(counterPDA);
 
+    setID(counterState.count);
+
     const [electionPDA, ] = PublicKey
         .findProgramAddressSync(
             [
@@ -43,8 +46,8 @@ describe("commit-reveal", () => {
         await program.methods.create(
             "Varun",
             [keyOne, keyTwo, PublicKey.default, signer.publicKey],
-            new anchor.BN(cur_time + 8*60), //8 min commit
-            new anchor.BN(cur_time + 20*60), //12 min reveal
+            new anchor.BN(cur_time + 5*60), //5 min commit
+            new anchor.BN(cur_time + 15*60), //10 min reveal
         )
         .accounts({
           counter: counterPDA,

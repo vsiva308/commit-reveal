@@ -1,5 +1,5 @@
 use crate::error::ElectionError;
-use crate::state::*;
+use crate::state::{Election, voter_record::VoterRecord};
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::keccak::hashv;
 
@@ -12,6 +12,7 @@ pub fn reveal(
     let pubkey = ctx.accounts.selection.key();
     let buffer: &[&[u8]] = &[pubkey.as_ref(), &salt.as_bytes()];
     let hash = hashv(buffer);
+    msg!("Hash: {:?}", hash.0);
     require!(hash.0 == ctx.accounts.record.vote, ElectionError::HashMismatch);
 
     //inc an election vec for vote
@@ -32,7 +33,9 @@ pub struct Reveal<'info> {
     )]
     pub election: Account<'info, Election>,
     #[account(
-        seeds = ["record".as_bytes(), payer.key().as_ref()], bump = record.bump
+        mut,
+        close = payer,
+        seeds = ["record".as_bytes(), election.key().as_ref(), payer.key().as_ref()], bump = record.bump
     )]
     pub record: Account<'info, VoterRecord>,
     ///CHECK: Done by the keccak hash

@@ -23,8 +23,6 @@ describe("commit-reveal", () => {
         program.programId
       );
 
-    
-
     const tx = await program.methods.initialize()
         .accounts({
           counter: counterPDA,
